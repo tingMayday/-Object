@@ -2,12 +2,17 @@
   <div>
     <div class="app-head">
       <div class="app-head-inner">
-        <img src="../assets/logo.png">
+        <router-link :to="{path: '/'}">
+          <img src="../assets/logo.png">
+        </router-link>
         <div class="head-nav">
           <ul class="nav-list">
-            <li @click="logClick">登陆</li>
+            <li> {{username}} </li>
+            <li v-if="username !== ''" class="nav-pile">|</li>
+            <li v-if="username !== ''" @click="logOut">退出</li>
+            <li v-if="username === ''" @click="logClick">登陆</li>
             <li class="nav-pile">|</li>
-            <li @click="regClick">注册</li>
+            <li v-if="username === ''" @click="regClick">注册</li>
             <li class="nav-pile">|</li>
             <li @click="aboutClick">关于</li>
           </ul>
@@ -24,30 +29,44 @@
     </div>
 
     <my-dialog :is-show="isShowAboutDialog" @on-close="closeDialog('isShowAboutDialog')">
-      <p>我害怕阅读的人。一跟他们谈话，我就像一个透明的人，苍白的脑袋无法隐藏。我所拥有的内涵是什么？不就是人人能脱口而出，游荡在空气中最通俗的认知吗？像心脏在身体的左边。春天之后是夏天。美国总统是世界上最有权力的人。但阅读的人在知识里遨游，能从食谱论及管理学，八卦周刊讲到社会趋势，甚至空中跃下的猫，都能让他们对建筑防震理论侃侃而谈。相较之下，我只是一台在MP3世代的录音机；过气、无法调整。他们是懂美学的牛顿。懂人类学的梵谷。懂孙子兵法的甘地。一本一本的书，就像一节节的脊椎，稳稳的支持着阅读的人。我害怕阅读的人。我祈祷他们永远不知道我的不安，免得他们会更轻易击垮我，甚至连打败我的意愿都没有。结尾部分平静叙述，但是也掩盖不了作者的才华。我害怕阅读的人，他们懂得生命太短，人总是聪明得太迟。我害怕阅读的人，他们的一小时，就是我的一生。我害怕阅读的人， 尤其是，还在阅读的人。网络上针对这篇文案的评论都是讲他文采如何好，其实他背后的策略才是真正牛逼的，这就是大师。</p>
+      <p>我害怕阅读的人。一跟他们谈话，我就像一个透明的人，苍白的脑袋无法隐藏。我所拥有的内涵是什么？
+        不就是人人能脱口而出，游荡在空气中最通俗的认知吗？像心脏在身体的左边。春天之后是夏天。美国总统是世界上最有权力的人。
+        但阅读的人在知识里遨游，能从食谱论及管理学，八卦周刊讲到社会趋势，甚至空中跃下的猫，都能让他们对建筑防震理论侃侃而谈。
+        相较之下，我只是一台在MP3世代的录音机；过气、无法调整。他们是懂美学的牛顿。懂人类学的梵谷。
+        懂孙子兵法的甘地。一本一本的书，就像一节节的脊椎，稳稳的支持着阅读的人。
+        我害怕阅读的人。我祈祷他们永远不知道我的不安，免得他们会更轻易击垮我，甚至连打败我的意愿都没有。结尾部分平静叙述，但是也掩盖不了作者的才华。
+        我害怕阅读的人，他们懂得生命太短，人总是聪明得太迟。
+        我害怕阅读的人，他们的一小时，就是我的一生。
+        我害怕阅读的人， 尤其是，还在阅读的人。
+        网络上针对这篇文案的评论都是讲他文采如何好，其实他背后的策略才是真正牛逼的，这就是大师。</p>
     </my-dialog>
 
     <my-dialog :is-show="isShowLogDialog" @on-close="closeDialog('isShowLogDialog')">
-      <log-form></log-form>
+      <log-form @has-log="onSuccessLog"></log-form>
     </my-dialog>
 
     <my-dialog :is-show="isShowRegDialog" @on-close="closeDialog('isShowRegDialog')">
-      <reg-form></reg-form>
+      <reg-form @has-log="onSuccessReg"></reg-form>
     </my-dialog>
   </div>
 </template>
 
 <script>
-import Dialog from './dialog'
+import Dialog from './base/dialog'
+import LogForm from './logForm'
+import RegForm from './regForm'
 export default {
   components: {
-    MyDialog: Dialog
+    MyDialog: Dialog,
+    LogForm,
+    RegForm
   },
   data () {
     return {
       isShowAboutDialog: false,
       isShowLogDialog: false,
-      isShowRegDialog: false
+      isShowRegDialog: false,
+      username: ''
     }
   },
   methods: {
@@ -60,8 +79,19 @@ export default {
     regClick() {
       this.isShowRegDialog = true
     },
+    logOut(){
+
+    },
     closeDialog(attr) {
       this[attr] = false
+    },
+    onSuccessLog(data) {
+      this.closeDialog('isShowLogDialog')
+      this.username = data.username
+    },
+    onSuccessReg(data) {
+      this.closeDialog('isShowRegDialog')
+      this.username = data.username
     }
   }
 }

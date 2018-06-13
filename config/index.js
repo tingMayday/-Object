@@ -11,7 +11,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
 
-    /* 下面的例子将代理请求 /api/getNewsList  到 http://localhost:3000/getNewsList*/
+    /* 下面的例子将代理请求 /api  到 http://localhost:8081*/
     proxyTable: {
       '/api': {
         changeOrigin: true,// 如果接口跨域，需要进行这个参数配置

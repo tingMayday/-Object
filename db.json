@@ -25,12 +25,21 @@
     "username": "yudongdong",
     "userId": 123123
   },
+  "register": {
+    "username": "123@",
+    "password": "123"
+  },
   "getPrice": {
-    "amount": 678
+    "amount": 250
   },
   "createOrder": {
-    "orderId": "6djk979"
+    "buyNumber": 1,
+    "buyType": 0,
+    "period": 0,
+    "version": "0",
+    "bankId": 101
   },
+  "checkOrder": {},
   "getOrderList": {
     "list": [
       {
